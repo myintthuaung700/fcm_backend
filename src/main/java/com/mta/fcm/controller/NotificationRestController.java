@@ -26,6 +26,7 @@ public class NotificationRestController {
             notificationService.sendPushNotification(notificationDTO);
             return ResponseEntity.ok("Notification sent successfully");
         } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending notification");
         }
     }
