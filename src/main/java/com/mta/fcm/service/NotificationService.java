@@ -13,13 +13,19 @@ import com.mta.fcm.dto.NotificationDTO;
 
 import lombok.RequiredArgsConstructor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 @RequiredArgsConstructor
 public class NotificationService implements INotificationService {
     private final FirebaseMessaging firebaseMessaging;
 
+    private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
+
     @Override
     public void sendPushNotification(NotificationDTO notificationDTO) throws FirebaseMessagingException {
+        logger.info("Received notification request: {}", notificationDTO);
         if (Objects.isNull(notificationDTO)) {
             throw new IllegalArgumentException("NotificationDTO cannot be null");
         }
@@ -48,7 +54,7 @@ public class NotificationService implements INotificationService {
                     .putAllData(notificationDTO.getDataMap())
                     .build();
         }
-
+        logger.info("Sending notification: {}", message);
         firebaseMessaging.send(message);
     }
 
